@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,37 +25,19 @@ public class UserController {
 
     // 로그인
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public UserVO login(@ModelAttribute UserVO vo, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
-        HttpSession session = req.getSession();
-        UserVO result = userService.login(vo);
-        log.info("=========UserVO========== " + result);
-        if (result == null) {
-            session.setAttribute("User", null);
-            rttr.addFlashAttribute("msg", false);
+    public UserVO login(@RequestBody Map<String, Object> params, HttpServletRequest req, HttpServletResponse response) throws Exception {
+        UserVO vo = new UserVO();
+        vo.setId(params.get("Id").toString());
+        vo.setPw(params.get("Pw").toString());
+        UserVO login = userService.login(vo);
+        if (login == null) {
         } else {
-            session.setAttribute("User", result);
+            Cookie loginCookie = new Cookie("id", login.getId());
+            loginCookie.setPath("/");
+            loginCookie.setMaxAge(-1);
+            response.addCookie(loginCookie);
         }
-        log.info("=========UserVO========== " + result);
-        return result;
-    }
-
-
-
-    //로그인 되어 있는지 체크
-    @ResponseBody
-    @RequestMapping(value = "/loginChk", method = RequestMethod.GET)
-    public Map loginChk(HttpServletRequest req, RedirectAttributes rttr) throws Exception {
-        Map<String, String> result = new HashMap<String, String>();
-        HttpSession session = req.getSession();
-        String id = "";
-        String loginYN = "N";
-        if (session != null && session.getAttribute("User") != null) {
-            id = ((UserVO) session.getAttribute("User")).getId();
-            loginYN = "Y";
-        }
-        result.put("id", id);
-        result.put("loginYN", loginYN);
-        return result;
+        return vo;
     }
 
     // 로그아웃
