@@ -27,8 +27,8 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public UserVO login(@RequestBody Map<String, Object> params, HttpServletRequest req, HttpServletResponse response) throws Exception {
         UserVO vo = new UserVO();
-        vo.setId(params.get("Id").toString());
-        vo.setPw(params.get("Pw").toString());
+        vo.setId(params.get("id").toString());
+        vo.setPw(params.get("pw").toString());
         UserVO login = userService.login(vo);
         if (login == null) {
         } else {
@@ -42,8 +42,14 @@ public class UserController {
 
     // 로그아웃
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) throws Exception {
-        session.invalidate();
+    public String logout(HttpServletResponse response, HttpServletRequest request, HttpSession session/*@CookieValue(value="id",required=false)Cookie genderCookie*/) throws Exception {
+        Cookie[] cookies = request.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
+        if (cookies != null) { // 쿠키가 한개라도 있으면 실행
+            for (int i = 0; i < cookies.length; i++) {
+                cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
+                response.addCookie(cookies[i]); // 응답 헤더에 추가
+            }
+        }
         return "redirect:/";
     }
 
