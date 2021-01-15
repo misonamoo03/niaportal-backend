@@ -1,8 +1,9 @@
 package com.misonamoo.niaportal.mapper;
 
 import com.misonamoo.niaportal.domain.Board;
-import com.misonamoo.niaportal.domain.BoardParameter;
+import com.misonamoo.niaportal.domain.BoardContent;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,16 +16,15 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    List<Board> getBoardList();
-
     Board getBoard(Long boardSeq);
 
-    Long saveBoard(BoardParameter param);
+    Long insertBoard(BoardContent param);
 
-    Long updateBoard(BoardParameter param);
+    Long updateBoard(BoardContent param);
 
     void deleteBoard(Long boardNo);
 
+    List<Board> getBoardwithPagination(@Param("limit") int limit, @Param("offset") int offset);
 
-
+    Integer getBoardTotalCount();
 }
