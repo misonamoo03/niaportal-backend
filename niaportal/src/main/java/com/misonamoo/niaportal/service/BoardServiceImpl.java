@@ -1,7 +1,7 @@
 package com.misonamoo.niaportal.service;
 
 import com.misonamoo.niaportal.domain.Board;
-import com.misonamoo.niaportal.domain.BoardParameter;
+import com.misonamoo.niaportal.domain.BoardContent;
 import com.misonamoo.niaportal.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,8 @@ public class BoardServiceImpl implements BoardService {
      * 목록 리턴.
      * @return
      */
-    public List<Board> getBoardList() {
-        return boardMapper.getBoardList();
+    public List<Board> getBoardwithPagination(int limit, int offset) {
+        return boardMapper.getBoardwithPagination(limit, offset);
     }
 
     /**
@@ -38,18 +38,25 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /**
-     * 등록/수정 처리.
+     * 등록 처리.
      * @param param
+     * @return
      */
-    public Long saveBoard(BoardParameter param) {
+    public Long insertBoard(BoardContent param) {
+        boardMapper.insertBoard(param);
+        return param.getBoardContentNo();
+    }
+
+    /**
+     * 수정 처리.
+     * @param param
+     * @return
+     */
+    public Long updateBoard(BoardContent param) {
         // 조회하여 리턴된 정보
-        Board board = boardMapper.getBoard(param.getBoardSeq());
-        if (board == null) {
-            boardMapper.saveBoard(param);
-        } else {
-            boardMapper.updateBoard(param);
-        }
-        return param.getBoardSeq();
+        Board board = boardMapper.getBoard(param.getBoardContentNo());
+        boardMapper.updateBoard(param);
+        return param.getBoardContentNo();
     }
 
     /**
@@ -58,5 +65,11 @@ public class BoardServiceImpl implements BoardService {
      */
     public void deleteBoard(Long boardSeq) {
         boardMapper.deleteBoard(boardSeq);
+    }
+
+
+    @Override
+    public Integer getBoardTotalCount() {
+        return boardMapper.getBoardTotalCount();
     }
 }
