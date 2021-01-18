@@ -9,7 +9,7 @@ import java.util.Date;
  * @author Yohan
  */
 @Data
-public class BoardContent Base{
+public class BoardContent {
 
     private Long boardContentNo;
     private Long userNo;
