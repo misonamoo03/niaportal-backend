@@ -18,6 +18,7 @@ import static com.misonamoo.niaportal.common.CommonUtil.*;
 
 @RestController
 @RequestMapping("/Common")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080" })
 public class CommonController extends BaseController{
 
     @Autowired
