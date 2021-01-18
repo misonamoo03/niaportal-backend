@@ -16,15 +16,15 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    Board getBoard(Long boardSeq);
+    BoardContent getBoard(Long boardContentNo);
 
-    Long insertBoard(BoardContent param);
+    Long insertBoard(BoardContent boardContentaram);
 
-    Long updateBoard(BoardContent param);
+    Long updateBoard(BoardContent boardContent);
 
-    void deleteBoard(Long boardNo);
+    void deleteBoard(Long boardContentNo);
 
-    List<Board> getBoardwithPagination(@Param("limit") int limit, @Param("offset") int offset);
+    List<BoardContent> getBoardwithPagination(int page, int pageSize);
 
     Integer getBoardTotalCount();
 }

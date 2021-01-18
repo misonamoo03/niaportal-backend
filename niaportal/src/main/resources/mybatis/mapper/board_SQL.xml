@@ -2,59 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.misonamoo.niaportal.mapper.BoardMapper">
 
-    <resultMap id="BoardMap" type="Board">
-        <result property="boardSeq" column="BOARD_SEQ" />
-        <result property="boardTitle" column="BOARD_TITLE" />
-        <result property="boardContent" column="BOARD_CONTENT" />
-        <result property="boardRegistDate" column="BOARD_REGIST_DATE" />
+    <resultMap id="BoardContentMap" type="BoardContent">
+        <result property="boardContentNo" column="BOARD_CONTENT_NO" />
+        <result property="userNo" column="USER_NO" />
+        <result property="boardNo" column="BOARD_NO" />
+        <result property="orgBoardContentNo" column="ORG_BOARD_CONTENT_NO" />
+        <result property="title" column="TITLE" />
+        <result property="content" column="CONTENT" />
+        <result property="secYn" column="SEC_YN" />
+        <result property="viewCnt" column="VIEW_CNT" />
+        <result property="regDate" column="REG_DATE" />
+        <result property="updDate" column="UPD_DATE" />
+        <result property="replyYn" column="REPLY_YN" />
     </resultMap>
 
-    <select id="getBoardwithPagination" resultMap="BoardMap">
-        select * from bizmiso.POSTER_BOARD limit #{limit} offset #{offset}
+    <select id="getBoardwithPagination" resultMap="BoardContentMap">
+        <!-- 애스터리스크(x) 필요한 컬럼만 리턴(연동 규격서 참고)-->
+        select * from bizmiso.AI_BOARD_CONTENT limit #{pageSize} offset #{offsetNum}
     </select>
 
     <select id="getBoardTotalCount" resultType="Integer">
-        select count(*) from bizmiso.POSTER_BOARD
+        select count(*) from bizmiso.AI_BOARD_CONTENT
     </select>
-    <select id="getBoardList" resultMap="BoardMap">
+    <select id="getBoardList" resultMap="BoardContentMap">
             SELECT *
-              FROM bizmiso.POSTER_BOARD
+              FROM bizmiso.AI_BOARD_CONTENT
     </select>
 
-    <select id="getBoard" parameterType="Board" resultMap="BoardMap">
-        select * from bizmiso.POSTER_BOARD where BOARD_SEQ = #{boardSeq}
+    <select id="getBoard" parameterType="BoardContent" resultMap="BoardContentMap">
+        <!-- 애스터리스트(x) 필요한 컬럼만 리턴 -->
+        select * from bizmiso.AI_BOARD_CONTENT where BOARD_CONTENT_NO = #{boardContentNo}
     </select>
 
-    <insert id="insertBoard" parameterType="BoardParameter" >
-        <selectKey resultType="Long" keyProperty="boardSeq" order="BEFORE">
-            select MAX(BOARD_SEQ) + 1 as SEQUENCE_NUMBER FROM bizmiso.POSTER_BOARD
+    <insert id="insertBoard" parameterType="BoardContent" >
+        <selectKey resultType="Long" keyProperty="boardContentNo" order="BEFORE">
+            select MAX(BOARD_CONTENT_NO) + 1 as SEQUENCE_NUMBER FROM bizmiso.AI_BOARD_CONTENT
         </selectKey>
-        INSERT INTO bizmiso.POSTER_BOARD (
-            BOARD_TITLE,
-            BOARD_CONTENT,
-            BOARD_REGIST_DATE
+        INSERT INTO bizmiso.AI_BOARD_CONTENT (
+            BOARD_CONTENT_NO,
+            USER_NO,
+            BOARD_NO,
+            ORG_BOARD_CONTENT_NO,
+            TITLE,
+            CONTENT,
+            SEC_YN,
+            VIEW_CNT,
+            REG_DATE,
+            UPD_DATE,
+            REPLY_YN
         ) VALUES (
-            #{boardTitle},
-            #{boardContent},
-            SYSDATE()
+            #{boardContentNo},
+            #{userNo},
+            #{boardNo},
+            #{orgBoardContentNo},
+            #{title},
+            #{content},
+            'N',
+            0,
+            sysdate(),
+            sysdate(),
+            'N'
         )
     </insert>
 
-    <update id="updateBoard" parameterType="BoardParameter" >
-        UPDATE bizmiso.POSTER_BOARD
+    <update id="updateBoard" parameterType="BoardContent" >
+        UPDATE bizmiso.AI_BOARD_CONTENT
         <trim prefix="SET" suffixOverrides=",">
-            <if test='boardTitle != null and boardTitle != "null" and boardTitle != ""'>
-                BOARD_TITLE = #{boardTitle},
+            <if test='title != null and title != "null" and title != ""'>
+                TITLE = #{title},
             </if>
-            <if test='boardContent != null and boardContent != "null" and boardContent != ""'>
-                BOARD_CONTENT = #{boardContent},
+            <if test='content != null and content != "null" and content != ""'>
+                CONTENT = #{content},
             </if>
         </trim>
-        WHERE BOARD_SEQ = #{boardSeq}
+        WHERE BOARD_CONTENT_NO = #{boardContentNo}
     </update>
 
     <delete id="deleteBoard" parameterType="Long">
-        delete from bizmiso.POSTER_BOARD where BOARD_SEQ = #{boardSeq}
+        delete from bizmiso.AI_BOARD_CONTENT where BOARD_CONTENT_NO = #{boardContentNo}
     </delete>
 
 </mapper>

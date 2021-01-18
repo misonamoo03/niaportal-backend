@@ -1,6 +1,18 @@
 #local, dev, prod 공통 설정
 #profiles 선언하여 적용할 profile을 선택한다.
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: {ID}
+    password: {PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+# 수정 예정
   profiles:
     active: local
 
@@ -35,6 +47,7 @@ spring:
     username:
     password:
 
+
 ---
 #prod 환경
 spring:
@@ -46,3 +59,7 @@ spring:
       password:
 server:
   port: 9090
+
+---
+#salt 키
+key: Misonamoo

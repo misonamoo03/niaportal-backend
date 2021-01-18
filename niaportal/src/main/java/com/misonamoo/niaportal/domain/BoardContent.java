@@ -9,7 +9,7 @@ import java.util.Date;
  * @author Yohan
  */
 @Data
-public class BoardContent {
+public class BoardContent Base{
 
     private Long boardContentNo;
     private Long userNo;
@@ -22,4 +22,9 @@ public class BoardContent {
     private Date regDate;
     private Date updDate;
     private String replyYn;
+
+    // 조인 컬럼
+    private String sportsBoardCode;
+    private int offsetNum;
+
 }

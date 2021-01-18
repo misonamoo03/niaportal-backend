@@ -19,4 +19,5 @@ public class Board {
     private Long regUserNo;
     private Date updDate;
     private Long updUserNo;
+
 }

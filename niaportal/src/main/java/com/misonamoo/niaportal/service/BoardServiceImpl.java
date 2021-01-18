@@ -24,47 +24,47 @@ public class BoardServiceImpl implements BoardService {
      * 목록 리턴.
      * @return
      */
-    public List<Board> getBoardwithPagination(int limit, int offset) {
-        return boardMapper.getBoardwithPagination(limit, offset);
+    public List<BoardContent> getBoardwithPagination(int page, int pageSize) {
+        return boardMapper.getBoardwithPagination(page, pageSize);
     }
 
     /**
      * 상세 정보 리턴.
-     * @param boardSeq
+     * @param boardContentNo
      * @return
      */
-    public Board getBoard(Long boardSeq) {
-        return boardMapper.getBoard(boardSeq);
+    public BoardContent getBoard(Long boardContentNo) {
+        return boardMapper.getBoard(boardContentNo);
     }
 
     /**
      * 등록 처리.
-     * @param param
+     * @param boardContent
      * @return
      */
-    public Long insertBoard(BoardContent param) {
-        boardMapper.insertBoard(param);
-        return param.getBoardContentNo();
+    public Long insertBoard(BoardContent boardContent) {
+        boardMapper.insertBoard(boardContent);
+        return boardContent.getBoardContentNo();
     }
 
     /**
      * 수정 처리.
-     * @param param
+     * @param boardContent
      * @return
      */
-    public Long updateBoard(BoardContent param) {
+    public Long updateBoard(BoardContent boardContent) {
         // 조회하여 리턴된 정보
-        Board board = boardMapper.getBoard(param.getBoardContentNo());
-        boardMapper.updateBoard(param);
-        return param.getBoardContentNo();
+        BoardContent content = boardMapper.getBoard(boardContent.getBoardContentNo());
+        boardMapper.updateBoard(content);
+        return boardContent.getBoardContentNo();
     }
 
     /**
      * 삭제 처리.
-     * @param boardSeq
+     * @param boardContentNo
      */
-    public void deleteBoard(Long boardSeq) {
-        boardMapper.deleteBoard(boardSeq);
+    public void deleteBoard(Long boardContentNo) {
+        boardMapper.deleteBoard(boardContentNo);
     }
 
 

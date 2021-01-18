@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface BoardService {
 
-    Board getBoard(Long getBoardSeq);
+    BoardContent getBoard(Long boardContentNo);
 
-    Long insertBoard(BoardContent param);
+    Long insertBoard(BoardContent boardContent);
 
-    Long updateBoard(BoardContent param);
+    Long updateBoard(BoardContent boardContent);
 
-    void deleteBoard(Long getBoardSeq);
+    void deleteBoard(Long boardContentNo);
 
-    List<Board> getBoardwithPagination(int limit, int offset);
+    List<BoardContent> getBoardwithPagination(int page, int pageSize);
 
     Integer getBoardTotalCount();
 }
