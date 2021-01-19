@@ -54,6 +54,8 @@ public class DwReqController extends BaseController{
                     data.put("confirmStateName",dwReqInfo.getConfirmStateName());
                 }
             }
+
+            
             ret.put("data", data);
         }
         else {
