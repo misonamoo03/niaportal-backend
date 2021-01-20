@@ -59,7 +59,7 @@ public class DwReqController extends BaseController{
             ret.put("data", data);
         }
         else {
-            ret.put("status", "104");
+            ret.put("status", 104);
             ret.put("message", "접근권한 없음");
             return ret;
         }
@@ -139,13 +139,13 @@ public class DwReqController extends BaseController{
                 if (dwReq.getUserNo() == Long.parseLong(getCookieValue(request, "userNo"))) {
                     dwReqInfo = dwReqService.getDwReqInfo(dwReq);
                 } else {
-                    ret.put("status", "104");
+                    ret.put("status", 104);
                     ret.put("message", "접근권한 없음");
                     return returnMap(ret);
                 }
             }
             if(dwReqInfo == null){
-                ret.put("status", "105");
+                ret.put("status", 105);
                 ret.put("message", "요청정보 없음");
                 return returnMap(ret);
             }else{
@@ -154,7 +154,7 @@ public class DwReqController extends BaseController{
             }
         }
         else {
-            ret.put("status", "104");
+            ret.put("status", 104);
             ret.put("message", "접근권한 없음");
             return returnMap(ret);
         }
@@ -186,21 +186,21 @@ public class DwReqController extends BaseController{
                     getDwReqInfo.setConfirmMessage(dwReq.getConfirmMessage());
                     dwReqService.insertReq(getDwReqInfo);
                 }else{
-                    ret.put("status", "105");
+                    ret.put("status", 105);
                     ret.put("message", "요청정보 없음");
                     return returnMap(ret);
                 }
 
             }else {//일반유저의 경우 - 자기자신 정보만 조회 가능하다.
 
-                ret.put("status", "104");
+                ret.put("status", 104);
                 ret.put("message", "접근권한 없음");
                 return returnMap(ret);
             }
 
         }
         else {
-            ret.put("status", "104");
+            ret.put("status", 104);
             ret.put("message", "접근권한 없음");
             return returnMap(ret);
         }
@@ -229,14 +229,14 @@ public class DwReqController extends BaseController{
 
             }else {//일반유저의 경우 - 자기자신 정보만 조회 가능하다.
 
-                ret.put("status", "104");
+                ret.put("status", 104);
                 ret.put("message", "접근권한 없음");
                 return returnMap(ret);
             }
 
         }
         else {
-            ret.put("status", "104");
+            ret.put("status", 104);
             ret.put("message", "접근권한 없음");
             return returnMap(ret);
         }
